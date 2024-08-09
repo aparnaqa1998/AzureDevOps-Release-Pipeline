@@ -2,7 +2,7 @@ trigger:
 - master
 
 resources:
-repositories:
+ repositories:
     - repository: AzureDevOps-Release-Pipeline
       type: github
       name: aparnaqa1998/AzureDevOps-Release-Pipeline
