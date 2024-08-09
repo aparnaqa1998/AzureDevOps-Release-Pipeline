@@ -10,7 +10,7 @@ resources:
 pool: MyPool
 
 variables:
-  dockerRegistryServiceConnection: 'f28df192-5467-4584-8aa5-173eb669cfd6'
+  dockerRegistryServiceConnection: '7b0ff5e7-1015-4ee6-a293-341a3bcd0651'
   imageRepository: 'demonodeapp'
   containerRegistry: 'demonodeapp.azurecr.io'
   dockerfilePath: '**/Dockerfile'
