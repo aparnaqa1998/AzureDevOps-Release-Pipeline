@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demonodeapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demonodeapp
+  template:
+    metadata:
+      labels:
+        app: demonodeapp
+    spec:
+      containers:
+      - name: demonodeapp
+        image: demonodeapp.azurecr.io/demonodeapp:latest
+        ports:
+        - containerPort: 3000
