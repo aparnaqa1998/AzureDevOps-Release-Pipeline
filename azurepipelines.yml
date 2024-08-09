@@ -3,7 +3,10 @@ trigger:
 
 resources:
 - repo: self
-
+- repo: github
+  type: git
+  name: AzureDevOps-Release-Pipeline
+  endpoint: aparnaqa1998
 pool:
   vmImage: 'ubuntu-latest'
 
