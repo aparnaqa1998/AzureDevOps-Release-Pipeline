@@ -1,12 +1,12 @@
 trigger:
-- main
+- master
 
 resources:
-- repo: self
-- repo: github
-  type: git
-  name: AzureDevOps-Release-Pipeline
-  endpoint: aparnaqa1998
+repositories:
+    - repository: AzureDevOps-Release-Pipeline
+      type: github
+      name: aparnaqa1998/AzureDevOps-Release-Pipeline
+      endpoint: aparnaqa1998
 pool:
   vmImage: 'ubuntu-latest'
 
