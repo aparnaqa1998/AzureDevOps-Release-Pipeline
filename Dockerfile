@@ -15,7 +15,8 @@ COPY . .
 
 RUN mkdir -p coverage
 
-RUN chmod +x /usr/src/app/
+RUN chmod -R +x /usr/src/app/node_modules/.bin
+
 
 RUN npm test -- --coverage --coverageDirectory=coverage
 # Debug: List files in /usr/src/app and coverage directory
