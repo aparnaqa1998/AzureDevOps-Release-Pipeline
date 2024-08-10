@@ -7,7 +7,6 @@ resources:
       type: github
       name: aparnaqa1998/AzureDevOps-Release-Pipeline
       endpoint: aparnaqa1998
-#pool: MyPool
 
 variables:
   dockerRegistryServiceConnection: 'e453514d-0e47-4e4a-9ae6-6358bb376d96'
@@ -16,8 +15,6 @@ variables:
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'demonodeapp-secret'
- # SP_ID: '14703c66-348f-4e1c-9234-fd14a066c780'
- # SP_NEW: JJT8Q~GISb45~x1~kfdzRToUo2Kb2OCl_YG5sb4v
    # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
@@ -32,8 +29,6 @@ stages:
     pool: 
      vmImage: $(vmImageName)
     steps:
-   # - script: |
-   #     docker login $(containerRegistry) --username $(SP_ID) --password $(SP_NEW)
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
@@ -45,6 +40,12 @@ stages:
         $(tag)
     - upload: manifests
       artifact: manifests
+   - task: PublishBuildArtifacts@1
+     displayName: 'Publish coverage reports'
+    inputs:
+     PathtoPublish: 'coverage'
+     ArtifactName: 'coverage'
+
       
 - stage: Deploy
   displayName: Deploy stage

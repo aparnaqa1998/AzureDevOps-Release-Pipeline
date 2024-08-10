@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Node App</title>
+</head>
+<body>
+    <h1>Welcome to My Node App</h1>
+    <button onclick="fetchGreeting()">Get Greeting</button>
+    <p id="greeting"></p>
+
+    <script>
+        async function fetchGreeting() {
+            const response = await fetch('/api/greet');
+            const data = await response.json();
+            document.getElementById('greeting').textContent = data.message;
+        }
+    </script>
+</body>
+</html>

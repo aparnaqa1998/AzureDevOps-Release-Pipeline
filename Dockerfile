@@ -1,7 +1,7 @@
-# Use an official Node.js runtime as a parent image
+# Use the official Node.js image as a base image
 FROM node:14
 
-# Set the working directory
+# Set the working directory in the container
 WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json
@@ -10,11 +10,19 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-# Copy the rest of the application code
+# Copy the rest of your application code
 COPY . .
 
-# Expose the port the app runs on
+RUN mkdir -p coverage
+
+RUN npm test -- --coverage --coverageDirectory=coverage
+# Debug: List files in /usr/src/app and coverage directory
+RUN ls -la /usr/src/app
+RUN ls -la /usr/src/app/coverage
+
+
+# Expose any required ports (optional)
 EXPOSE 3000
 
-# Start the app
-CMD ["node", "index.js"]
+# Command to keep container running for debugging
+CMD ["sh"]
