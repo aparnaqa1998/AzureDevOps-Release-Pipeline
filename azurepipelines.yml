@@ -49,11 +49,11 @@ stages:
         command: login
         containerRegistry: $(dockerRegistryServiceConnection)
     - script: |
-       az acr login --name $(ACR_NAME)
+        az acr login --name $(ACR_NAME)
       # docker run --rm -v $(Build.SourcesDirectory)/coverage:/coverage demonodeapp:$(tag)
-       docker run --rm -v $(Build.SourcesDirectory)/coverage:/coverage $(ACR_NAME).azurecr.io/demonodeapp:$(tag)
-       cp -r /usr/src/app/coverage /coverage
-       ls -la $(Build.SourcesDirectory)/coverage
+         docker run --rm -v $(Build.SourcesDirectory)/coverage:/coverage $(ACR_NAME).azurecr.io/demonodeapp:$(tag)
+         cp -r /usr/src/app/coverage /coverage
+         ls -la $(Build.SourcesDirectory)/coverage
       displayName: Run Docker Container
 
 
