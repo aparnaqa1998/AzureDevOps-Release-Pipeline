@@ -44,8 +44,8 @@ stages:
     - task: PublishBuildArtifacts@1
       displayName: 'Publish coverage reports'
       inputs:
-       PathtoPublish: 'coverage'
-       ArtifactName: 'coverage'
+       PathtoPublish: '$(Build.SourcesDirectory)/coverage'
+       ArtifactName: 'coverage-reports'
 
       
 - stage: Deploy
