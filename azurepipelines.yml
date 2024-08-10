@@ -40,11 +40,12 @@ stages:
         $(tag)
     - upload: manifests
       artifact: manifests
-   - task: PublishBuildArtifacts@1
-     displayName: 'Publish coverage reports'
-    inputs:
-     PathtoPublish: 'coverage'
-     ArtifactName: 'coverage'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish coverage reports'
+      inputs:
+       PathtoPublish: 'coverage'
+       ArtifactName: 'coverage'
 
       
 - stage: Deploy
