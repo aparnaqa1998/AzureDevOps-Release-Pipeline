@@ -43,6 +43,7 @@ stages:
 
     - script: |
        docker run --rm -v $(Build.SourcesDirectory)/coverage:/coverage demonodeapp
+       ls -la $(Build.SourcesDirectory)/coverage
       displayName: 'Run Docker Container'
 
 
