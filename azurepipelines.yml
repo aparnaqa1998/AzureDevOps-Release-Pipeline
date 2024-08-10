@@ -41,6 +41,11 @@ stages:
     - upload: manifests
       artifact: manifests
 
+    - script: |
+       docker run --rm -v $(Build.SourcesDirectory)/coverage:/coverage demonodeapp
+      displayName: 'Run Docker Container'
+
+
     - task: PublishBuildArtifacts@1
       displayName: 'Publish coverage reports'
       inputs:
