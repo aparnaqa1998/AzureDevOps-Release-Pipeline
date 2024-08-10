@@ -30,6 +30,11 @@ stages:
      vmImage: $(vmImageName)
     steps:
     - task: Docker@2
+      displayName: Docker Login
+      inputs:
+        command: login
+        containerRegistry: $(dockerRegistryServiceConnection)
+    - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
        repository: $(imageRepository)
@@ -43,6 +48,7 @@ stages:
 
     - script: |
        docker run --rm -v $(Build.SourcesDirectory)/coverage:/coverage demonodeapp
+       cp -r /usr/src/app/coverage /coverage
        ls -la $(Build.SourcesDirectory)/coverage
       displayName: 'Run Docker Container'
 
