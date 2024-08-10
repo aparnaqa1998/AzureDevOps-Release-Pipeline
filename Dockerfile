@@ -15,7 +15,9 @@ COPY . .
 
 RUN mkdir -p coverage
 
-RUN npx jest -- --coverage --coverageDirectory=coverage
+RUN chmod -R u+rwX,g+rwX,o+rX /usr/src/app
+
+RUN npm test -- --coverage --coverageDirectory=coverage
 # Debug: List files in /usr/src/app and coverage directory
 RUN ls -la /usr/src/app
 RUN ls -la /usr/src/app/coverage
