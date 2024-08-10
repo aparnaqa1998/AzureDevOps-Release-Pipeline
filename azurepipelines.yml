@@ -53,7 +53,7 @@ stages:
        docker run --rm -v $(Build.SourcesDirectory)/coverage:/coverage demonodeapp:$(tag)
        cp -r /usr/src/app/coverage /coverage
        ls -la $(Build.SourcesDirectory)/coverage
-      displayName: 'Run Docker Container'
+    displayName: 'Run Docker Container'
 
 
     - task: PublishBuildArtifacts@1
