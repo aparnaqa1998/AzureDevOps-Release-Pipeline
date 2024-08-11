@@ -10,10 +10,12 @@ spec:
   selector:
     matchLabels:
       app: demonodeapp
+      environment: releasepipeline
   template:
     metadata:
       labels:
         app: demonodeapp
+        environment: releasepipeline
     spec:
       containers:
       - name: demonodeapp
