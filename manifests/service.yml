@@ -2,11 +2,15 @@ apiVersion: v1
 kind: Service
 metadata:
   name: demonodeapp-service
+  labels:
+    app: demonodeapp
+    environment: releasepipeline
 spec:
+   type: LoadBalancer
   selector:
     app: demonodeapp
+    environment: releasepipeline
   ports:
     - protocol: TCP
       port: 80
       targetPort: 3000
-  type: LoadBalancer
