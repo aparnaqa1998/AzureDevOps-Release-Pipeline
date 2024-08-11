@@ -36,22 +36,17 @@ stages:
 
     - bash: |
         echo $ENV_ACR_PASSWORD | docker login $(ACR_NAME).azurecr.io -u $ENV_ACR_USERNAME --password-stdin
+        docker build -t $(imageRepository):$(tag) .
+        docker tag demonodeapp:$(tag) $(ACR_NAME).azurecr.io/$(imageRepository):$(tag)
+        docker push $(ACR_NAME).azurecr.io/$(imageRepository):$(tag)
+        docker run --rm -v $(Build.SourcesDirectory)/coverage:/coverage $(ACR_NAME).azurecr.io/$(imageRepository):$(tag)
         cp -r /coverage $(Build.SourcesDirectory)/coverage
         ls -la $(Build.SourcesDirectory)/coverage
-      displayName: 'Login to ACR'
+      displayName: 'Build and Push docker and Copy test report'
       env:
        ENV_ACR_USERNAME: $(ACR_USERNAME) # Set as secret pipeline variable
        ENV_ACR_PASSWORD: $(ACR_PASSWORD) # Set as secret pipeline variable
-       
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-       repository: $(imageRepository)
-       command:  buildAndPush
-       dockerfile: $(dockerfilePath)
-       containerRegistry: $(dockerRegistryServiceConnection)
-       tags: |
-        $(tag)
+
     - upload: manifests
       artifact: manifests
     - task: PublishBuildArtifacts@1
