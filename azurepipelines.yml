@@ -50,19 +50,19 @@ stages:
        RETRY_COUNT=0
     
        while [ ! -f "$FILE_PATH" ] && [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-        echo "File $FILE_PATH not found. Waiting for $RETRY_INTERVAL seconds..."
+         echo "File $FILE_PATH not found. Waiting for $RETRY_INTERVAL seconds..."
          sleep $RETRY_INTERVAL
-       RETRY_COUNT=$((RETRY_COUNT + 1))
-      done
+         RETRY_COUNT=$((RETRY_COUNT + 1))
+       done
     
-       if [ -f "$FILE_PATH" ]; then
+      if [ -f "$FILE_PATH" ]; then
         echo "File $FILE_PATH found. Proceeding with the script."
         sed "s|$(containerRegistry)|$containerRegistry|g; s|$(imageRepository)|$imageRepository|g; s|$(tag)|$tag|g" $(Pipeline.Workspace)/manifests/deployment-staging.yml > $(Pipeline.Workspace)/manifests/deployment-staging.yml
         sed "s|$(containerRegistry)|$containerRegistry|g; s|$(imageRepository)|$imageRepository|g; s|$(tag)|$tag|g" $(Pipeline.Workspace)/manifests/deployment.yml > $(Pipeline.Workspace)/manifests/deployment.yml
-       else
+      else
         echo "File $FILE_PATH not found after $((RETRY_COUNT * RETRY_INTERVAL)) seconds. Exiting."
         exit 1
-       fi
+      fi
       displayName: 'Wait for file and then run script'
       env:
         containerRegistry: $(containerRegistry)
