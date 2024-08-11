@@ -2,25 +2,23 @@ trigger:
 - master
 
 resources:
- repositories:
+  repositories:
     - repository: AzureDevOps-Release-Pipeline
       type: github
       name: aparnaqa1998/AzureDevOps-Release-Pipeline
       endpoint: aparnaqa1998
 
 variables:
-  dockerRegistryServiceConnection: 'e453514d-0e47-4e4a-9ae6-6358bb376d96'
+  dockerRegistryServiceConnection: 'c19b7425-2eb4-4f79-9f19-d290afb65bd4'
   imageRepository: 'demonodeapp'
   containerRegistry: 'demonodeapp.azurecr.io'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'demonodeapp-secret'
-   # Agent VM image name
   vmImageName: 'ubuntu-latest'
-  ACR_NAME: 'demonodeapp.azurecr.io'
-  ACR_USERNAME: $(ACR_USERNAME) # Set this as a secret pipeline variable
-  ACR_PASSWORD: $(ACR_PASSWORD) # Set this as a secret pipeline variable
-
+  ACR_NAME: 'demonodeapp'
+  ACR_USERNAME: $(ACR_USERNAME) # Set as secret pipeline variable
+  ACR_PASSWORD: $(ACR_PASSWORD) # Set as secret pipeline variable
 
 stages:
 - stage: Build
@@ -30,8 +28,27 @@ stages:
   - job: Build
     displayName: Build
     pool: 
-     vmImage: $(vmImageName)
+      vmImage: $(vmImageName)
     steps:
+    - task: Docker@2
+      displayName: Docker Login
+      inputs:
+        command: login
+        containerRegistry: $(dockerRegistryServiceConnection)
+
+    - script: |
+        echo $(ACR_PASSWORD) | docker login $(ACR_NAME).azurecr.io -u $(ACR_USERNAME) --password-stdin
+      displayName: 'Login to ACR'
+      
+    - script: |
+        # Build Docker image
+        docker build -t $(imageRepository):$(tag) .
+      displayName: 'Build Docker Image'
+      
+    - script: |
+        # Run Docker container to generate coverage reports
+        docker run --rm -v $(Build.SourcesDirectory)/coverage:/coverage $(imageRepository):$(tag)
+      displayName: 'Run Docker Container and Generate Coverage Reports'
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
@@ -43,26 +60,12 @@ stages:
         $(tag)
     - upload: manifests
       artifact: manifests
-    - task: Docker@2
-      displayName: Docker Login
-      inputs:
-        command: login
-        containerRegistry: $(dockerRegistryServiceConnection)
-    - script: |
-         az acr login --name $(ACR_NAME)
-         docker run --rm -v $(Build.SourcesDirectory)/coverage:coverage demonodeapp:$(tag)
-         cp -r /usr/src/app/coverage /coverage
-         ls -la $(Build.SourcesDirectory)/coverage
-      displayName: Run Docker Container
-
-
     - task: PublishBuildArtifacts@1
-      displayName: 'Publish coverage reports'
+      displayName: 'Publish Coverage Reports'
       inputs:
-       PathtoPublish: '$(Pipeline.Workspace)/coverage'
-       ArtifactName: 'coverage-reports'
+        PathtoPublish: '$(Build.SourcesDirectory)/coverage'
+        ArtifactName: 'coverage-reports'
 
-      
 - stage: Deploy
   displayName: Deploy stage
   dependsOn: Build
