@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: demonodeapp
-        image: $(CONTAINER_REGISTRY)/$(IMAGE_REPOSITORY):$(TAG)
+        image: $(containerRegistry)/$(imageRepository):$(tag)
         ports:
         - containerPort: 3000
         volumeMounts:
