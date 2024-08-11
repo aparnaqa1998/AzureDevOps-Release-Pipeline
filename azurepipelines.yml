@@ -40,8 +40,8 @@ stages:
        ENV_ACR_USERNAME: $(ACR_USERNAME) # Set as secret pipeline variable
        ENV_ACR_PASSWORD: $(ACR_PASSWORD) # Set as secret pipeline variable
 
-     - upload: manifests
-       artifact: manifests
+    - upload: manifests
+      artifact: manifests
 
     - script: |
         sed "s|$(CONTAINER_REGISTRY)|$containerRegistry|g; s|$(IMAGE_REPOSITORY)|$imageRepository|g; s|$(TAG)|$tag|g" $(Pipeline.Workspace)/manifests/deployment-staging-template.yml > $(Pipeline.Workspace)/manifests/deployment-staging.yml
