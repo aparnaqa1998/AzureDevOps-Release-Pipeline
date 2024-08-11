@@ -19,6 +19,6 @@ spec:
     spec:
       containers:
       - name: demonodeapp
-        image: $(containerRegistry)/$(imageRepository):$(tag)
+        image: demonodeapp.azurecr.io/demonodeapp
         ports:
         - containerPort: 3000
