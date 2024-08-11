@@ -54,7 +54,7 @@ stages:
         PathtoPublish: '$(Build.SourcesDirectory)/coverage'
         ArtifactName: 'coverage-reports'
 
-- stage: Deploy Dev
+- stage: Deploy_Dev
   displayName: Deploy stage
   dependsOn: Build
 
@@ -89,7 +89,7 @@ stages:
 - stage: Deploy_Staging
   displayName: Deploy to Staging
   dependsOn: Build
-  
+
   jobs:
   - deployment: DeployToStaging
     displayName: Deploy to Staging
