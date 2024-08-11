@@ -28,12 +28,6 @@ stages:
     pool: 
       vmImage: $(vmImageName)
     steps:
-    - task: Docker@2
-      displayName: Docker Login
-      inputs:
-        command: login
-        containerRegistry: $(dockerRegistryServiceConnection)
-
     - bash: |
         echo $ENV_ACR_PASSWORD | docker login $(ACR_NAME).azurecr.io -u $ENV_ACR_USERNAME --password-stdin
         docker build -t $(imageRepository):$(tag) .
@@ -46,6 +40,11 @@ stages:
        ENV_ACR_USERNAME: $(ACR_USERNAME) # Set as secret pipeline variable
        ENV_ACR_PASSWORD: $(ACR_PASSWORD) # Set as secret pipeline variable
 
+    - script: |
+        sed "s|$(CONTAINER_REGISTRY)|$containerRegistry|g; s|$(IMAGE_REPOSITORY)|$imageRepository|g; s|$(TAG)|$tag|g" $(Pipeline.Workspace)/manifests/deployment-staging-template.yml > $(Pipeline.Workspace)/manifests/deployment-staging.yml
+        sed "s|$(CONTAINER_REGISTRY)|$containerRegistry|g; s|$(IMAGE_REPOSITORY)|$imageRepository|g; s|$(TAG)|$tag|g" $(Pipeline.Workspace)/manifests/service-staging-template.yml > $(Pipeline.Workspace)/manifests/deployment.yml
+      displayName: 'Replace placeholders in manifest files'
+
     - upload: manifests
       artifact: manifests
    # - task: PublishBuildArtifacts@1
@@ -55,7 +54,7 @@ stages:
     #    ArtifactName: 'coverage-reports'
 
 - stage: Deploy_Dev
-  displayName: Deploy stage
+  displayName: Deploy to Dev
   dependsOn: Build
 
   jobs:
