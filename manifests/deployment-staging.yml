@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demonodeapp-staging
+  labels:
+    app: demonodeapp
+    environment: staging
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: demonodeapp
+      environment: staging
+  template:
+    metadata:
+      labels:
+        app: demonodeapp
+        environment: staging
+    spec:
+      containers:
+      - name: demonodeapp
+        image: $(containerRegistry)/$(imageRepository):$(tag)
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - name: coverage-volume
+          mountPath: /usr/src/app/coverage
+      volumes:
+      - name: coverage-volume
+        emptyDir: {}  # Use emptyDir to create a temporary directory for coverage reports
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demonodeapp-service-staging
+  labels:
+    app: demonodeapp
+    environment: staging
+spec:
+  type: LoadBalancer
+  selector:
+    app: demonodeapp
+    environment: staging
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000

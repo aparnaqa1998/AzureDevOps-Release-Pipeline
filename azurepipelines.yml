@@ -54,7 +54,7 @@ stages:
         PathtoPublish: '$(Build.SourcesDirectory)/coverage'
         ArtifactName: 'coverage-reports'
 
-- stage: Deploy
+- stage: Deploy Dev
   displayName: Deploy stage
   dependsOn: Build
 
@@ -82,6 +82,31 @@ stages:
               manifests: |
                 $(Pipeline.Workspace)/manifests/deployment.yml
                 $(Pipeline.Workspace)/manifests/service.yml
+              imagePullSecrets: |
+                $(imagePullSecret)
+              containers: |
+                $(containerRegistry)/$(imageRepository):$(tag)
+- stage: Deploy_Staging
+  displayName: Deploy to Staging
+  dependsOn: Build
+  
+  jobs:
+  - deployment: DeployToStaging
+    displayName: Deploy to Staging
+    pool:
+      vmImage: $(vmImageName)
+    environment: 'staging'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes Cluster
+            inputs:
+              action: deploy
+              manifests: |
+                $(Pipeline.Workspace)/manifests/deployment-staging.yml
+                $(Pipeline.Workspace)/manifests/service-staging.yml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |

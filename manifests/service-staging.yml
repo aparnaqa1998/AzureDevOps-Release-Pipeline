@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: demonodeapp-staging-service
+  labels:
+    app: demonodeapp
+    environment: staging
+spec:
+  type: LoadBalancer  # Use ClusterIP or NodePort if you do not need external access
+  selector:
+    app: demonodeapp
+    environment: staging
+  ports:
+    - protocol: TCP
+      port: 80        # Port to expose on the service
+      targetPort: 3000  # Port on the container
