@@ -6,7 +6,7 @@ metadata:
     app: demonodeapp
     environment: staging
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: demonodeapp
@@ -22,9 +22,3 @@ spec:
         image: $(containerRegistry)/$(imageRepository):$(tag)
         ports:
         - containerPort: 3000
-        volumeMounts:
-        - name: coverage-volume
-          mountPath: /usr/src/app/coverage
-      volumes:
-      - name: coverage-volume
-        emptyDir: {}  # Use emptyDir to create a temporary directory for coverage reports
