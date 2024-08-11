@@ -39,8 +39,8 @@ stages:
         docker build -t $(imageRepository):$(tag) .
         docker tag demonodeapp:$(tag) $(ACR_NAME).azurecr.io/$(imageRepository):$(tag)
         docker push $(ACR_NAME).azurecr.io/$(imageRepository):$(tag)
-        docker run --rm -v $(Build.SourcesDirectory)/coverage:/coverage $(ACR_NAME).azurecr.io/$(imageRepository):$(tag)
-        cp -r /coverage $(Build.SourcesDirectory)/coverage
+        docker run --rm -v $(Build.SourcesDirectory)/coverage:/usr/src/app/coverage $(ACR_NAME).azurecr.io/$(imageRepository):$(tag)
+        cp -r /usr/src/app/coverage/coverage $(Build.SourcesDirectory)/coverage
         ls -la $(Build.SourcesDirectory)/coverage
       displayName: 'Build and Push docker and Copy test report'
       env:
