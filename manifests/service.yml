@@ -10,7 +10,7 @@ spec:
    selector:
     app: demonodeapp
     environment: releasepipeline
-  ports:
+   ports:
     - protocol: TCP
       port: 80
       targetPort: 3000
