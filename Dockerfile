@@ -23,7 +23,7 @@ RUN npm test -- --coverage --coverageDirectory=coverage
 RUN ls -la /usr/src/app
 RUN ls -la /usr/src/app/coverage
 # Copy the coverage reports to a location that will be accessible outside the container
-RUN cp -r /usr/src/app/coverage /coverage
+RUN cp -r /usr/src/app/coverage /home/vsts/work/1/s/coverage
 
 
 # Expose any required ports (optional)

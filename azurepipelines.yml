@@ -36,17 +36,13 @@ stages:
 
     - bash: |
         echo $ENV_ACR_PASSWORD | docker login $(ACR_NAME).azurecr.io -u $ENV_ACR_USERNAME --password-stdin
+        cp -r /coverage $(Build.SourcesDirectory)/coverage
+        ls -la $(Build.SourcesDirectory)/coverage
       displayName: 'Login to ACR'
       env:
        ENV_ACR_USERNAME: $(ACR_USERNAME) # Set as secret pipeline variable
        ENV_ACR_PASSWORD: $(ACR_PASSWORD) # Set as secret pipeline variable
-
-    - script: |
-        # Run Docker container to generate coverage reports
-        docker run --rm -v $(Build.SourcesDirectory)/coverage:/coverage $(imageRepository):$(tag)
-        cp -r /coverage $(Build.SourcesDirectory)/coverage
-        ls -la $(Build.SourcesDirectory)/coverage
-      displayName: 'Run Docker Container and Generate Coverage Reports'
+       
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
