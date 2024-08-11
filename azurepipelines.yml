@@ -48,11 +48,11 @@ stages:
 
     - upload: manifests
       artifact: manifests
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Coverage Reports'
-      inputs:
-        PathtoPublish: '$(Build.SourcesDirectory)/coverage'
-        ArtifactName: 'coverage-reports'
+   # - task: PublishBuildArtifacts@1
+   #   displayName: 'Publish Coverage Reports'
+    #  inputs:
+     #   PathtoPublish: '$(Build.SourcesDirectory)/coverage'
+    #    ArtifactName: 'coverage-reports'
 
 - stage: Deploy_Dev
   displayName: Deploy stage
