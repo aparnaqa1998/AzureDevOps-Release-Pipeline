@@ -34,7 +34,7 @@ stages:
         command: login
         containerRegistry: $(dockerRegistryServiceConnection)
 
-    - script: |
+    - bash: |
         echo $(ENV_ACR_PASSWORD) | docker login $(ACR_NAME).azurecr.io -u $(ENV_ACR_USERNAME) --password-stdin
       displayName: 'Login to ACR'
       env:
