@@ -13,6 +13,8 @@ RUN npm install
 # Copy the rest of your application code
 COPY . .
 
+RUN chmod -R +x /usr/src/app/node_modules/.bin
+
 RUN npm test -- --coverage --coverageDirectory=coverage
 
 # Expose any required ports (optional)
