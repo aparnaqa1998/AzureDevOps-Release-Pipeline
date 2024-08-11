@@ -95,7 +95,7 @@ stages:
     displayName: Deploy to Staging
     pool:
       vmImage: $(vmImageName)
-    environment: 'staging'
+    environment: 'staging.default'
     strategy:
       runOnce:
         deploy:
