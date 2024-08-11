@@ -44,8 +44,8 @@ stages:
       artifact: manifests
  
     - script: |
-        sed "s|$(containerRegistry|$containerRegistry|g; s|$(imageRepository)|$imageRepository|g; s|$(tag)|$tag|g" $(Pipeline.Workspace)/manifests/deployment-staging.yml > $(Pipeline.Workspace)/manifests/deployment-staging.yml
-        sed "s|$(containerRegistry|$containerRegistry|g; s|$(imageRepository)|$imageRepository|g; s|$(tag)|$tag|g" $(Pipeline.Workspace)/manifests/service.yml > $(Pipeline.Workspace)/manifests/deployment.yml
+        sed "s|$(containerRegistry|$containerRegistry|g; s|$(imageRepository)|$imageRepository|g; s|$(tag)|$tag|g" $(Pipeline.Workspace)/manifests/deployment-staging-template.yml > $(Pipeline.Workspace)/manifests/deployment-staging.yml
+        sed "s|$(containerRegistry|$containerRegistry|g; s|$(imageRepository)|$imageRepository|g; s|$(tag)|$tag|g" $(Pipeline.Workspace)/manifests/service-template.yml > $(Pipeline.Workspace)/manifests/deployment.yml
       displayName: 'Replace placeholders in manifest files'
 
    # - task: PublishBuildArtifacts@1
