@@ -41,16 +41,10 @@ stages:
        ENV_ACR_USERNAME: $(ACR_USERNAME) # Set as secret pipeline variable
        ENV_ACR_PASSWORD: $(ACR_PASSWORD) # Set as secret pipeline variable
 
-      
-    - script: |
-        # Build Docker image
-        docker build -t $(imageRepository):$(tag) .
-      displayName: 'Build Docker Image'
-      
     - script: |
         # Run Docker container to generate coverage reports
         docker run --rm -v $(Build.SourcesDirectory)/coverage:/coverage $(imageRepository):$(tag)
-        cp -r /usr/src/app/coverage /coverage
+        cp -r /coverage $(Build.SourcesDirectory)/coverage
         ls -la $(Build.SourcesDirectory)/coverage
       displayName: 'Run Docker Container and Generate Coverage Reports'
     - task: Docker@2
