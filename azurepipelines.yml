@@ -17,9 +17,6 @@ variables:
   imagePullSecret: 'demonodeapp-secret'
   vmImageName: 'ubuntu-latest'
   ACR_NAME: 'demonodeapp'
-env:
-  ENV_ACR_USERNAME: $(ACR_USERNAME) # Set as secret pipeline variable
-  ENV_ACR_PASSWORD: $(ACR_PASSWORD) # Set as secret pipeline variable
 
 stages:
 - stage: Build
@@ -40,6 +37,10 @@ stages:
     - script: |
         echo $(ENV_ACR_PASSWORD) | docker login $(ACR_NAME).azurecr.io -u $(ENV_ACR_USERNAME) --password-stdin
       displayName: 'Login to ACR'
+      env:
+       ENV_ACR_USERNAME: $(ACR_USERNAME) # Set as secret pipeline variable
+       ENV_ACR_PASSWORD: $(ACR_PASSWORD) # Set as secret pipeline variable
+
       
     - script: |
         # Build Docker image
@@ -49,6 +50,8 @@ stages:
     - script: |
         # Run Docker container to generate coverage reports
         docker run --rm -v $(Build.SourcesDirectory)/coverage:/coverage $(imageRepository):$(tag)
+        cp -r /usr/src/app/coverage /coverage
+        ls -la $(Build.SourcesDirectory)/coverage
       displayName: 'Run Docker Container and Generate Coverage Reports'
     - task: Docker@2
       displayName: Build and push an image to container registry
