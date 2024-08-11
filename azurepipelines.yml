@@ -37,11 +37,10 @@ stages:
     - bash: |
         echo $ENV_ACR_PASSWORD | docker login $(ACR_NAME).azurecr.io -u $ENV_ACR_USERNAME --password-stdin
         docker build -t $(imageRepository):$(tag) .
+        docker run --rm -v $(Build.SourcesDirectory)/coverage:/usr/src/app/coverage $(ACR_NAME).azurecr.io/$(imageRepository):$(tag)
+        ls -la $(Build.SourcesDirectory)/coverage
         docker tag demonodeapp:$(tag) $(ACR_NAME).azurecr.io/$(imageRepository):$(tag)
         docker push $(ACR_NAME).azurecr.io/$(imageRepository):$(tag)
-        docker run --rm -v $(Build.SourcesDirectory)/coverage:/usr/src/app/coverage $(ACR_NAME).azurecr.io/$(imageRepository):$(tag)
-        cp -r /usr/src/app/coverage/coverage $(Build.SourcesDirectory)/coverage
-        ls -la $(Build.SourcesDirectory)/coverage
       displayName: 'Build and Push docker and Copy test report'
       env:
        ENV_ACR_USERNAME: $(ACR_USERNAME) # Set as secret pipeline variable
