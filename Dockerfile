@@ -13,18 +13,10 @@ RUN npm install
 # Copy the rest of your application code
 COPY . .
 
-RUN mkdir -p coverage
-
-RUN chmod -R +x /usr/src/app/node_modules/.bin
-
-
 RUN npm test -- --coverage --coverageDirectory=coverage
-# Debug: List files in /usr/src/app and coverage directory
-RUN ls -la /usr/src/app
-RUN ls -la /usr/src/app/coverage
 
 # Expose any required ports (optional)
 EXPOSE 3000
 
 # Command to keep container running for debugging
-CMD ["sh"]
+CMD ["npm","start"]
