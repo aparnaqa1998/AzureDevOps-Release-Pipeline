@@ -59,8 +59,8 @@ stages:
            sed "s|$(containerRegistry)|$containerRegistry|g; s|$(imageRepository)|$imageRepository|g; s|$(tag)|$tag|g" $(Pipeline.Workspace)/manifests/deployment-staging.yml > $(Pipeline.Workspace)/manifests/deployment-staging.yml
            sed "s|$(containerRegistry)|$containerRegistry|g; s|$(imageRepository)|$imageRepository|g; s|$(tag)|$tag|g" $(Pipeline.Workspace)/manifests/deployment.yml > $(Pipeline.Workspace)/manifests/deployment.yml
           else
-           echo "File $FILE_PATH not found after $((RETRY_COUNT * RETRY_INTERVAL)) seconds. Exiting."
-           exit 1
+            echo "File $FILE_PATH not found after $((RETRY_COUNT * RETRY_INTERVAL)) seconds. Exiting."
+            exit 1
           fi
       displayName: 'Wait for file and then run script'
       env:
