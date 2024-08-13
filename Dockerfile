@@ -22,3 +22,5 @@ EXPOSE 3000
 
 # Command to keep container running for debugging
 CMD ["npm","start"]
+
+
