@@ -9,7 +9,7 @@ resources:
       endpoint: aparnaqa1998
 
 variables:
-  dockerRegistryServiceConnection: 'c19b7425-2eb4-4f79-9f19-d290afb65bd4'
+  dockerRegistryServiceConnection: '3f02f8f0-aa68-461c-9108-0f2bf53c03e5'
   imageRepository: 'demonodeapp'
   containerRegistry: 'demonodeapp.azurecr.io'
   dockerfilePath: '**/Dockerfile'
@@ -52,7 +52,7 @@ stages:
     displayName: Deploy
     pool:
       vmImage: $(vmImageName)
-    environment: 'releasepipeline.kube-node-lease'
+    environment: 'dev.default'
     strategy:
       runOnce:
         deploy:
@@ -93,7 +93,7 @@ stages:
     displayName: Deploy to Staging
     pool:
       vmImage: $(vmImageName)
-    environment: 'staging.default'
+    environment: 'staging.kube-public'
     strategy:
       runOnce:
         deploy:
