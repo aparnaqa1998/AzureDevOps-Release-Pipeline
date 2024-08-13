@@ -16,7 +16,7 @@ variables:
   tag: '$(Build.BuildId)'
   imagePullSecret: 'demonodeapp-secret'
   vmImageName: 'ubuntu-latest'
-  ACR_NAME: 'demonodeapp'
+  ACR_NAME: 'demonodeapp' 
 
 stages:
 - stage: Build
