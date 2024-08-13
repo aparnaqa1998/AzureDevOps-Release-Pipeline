@@ -4,12 +4,12 @@ metadata:
   name: demonodeapp-service
   labels:
     app: demonodeapp
-    environment: releasepipeline
+    environment: dev
 spec:
    type: LoadBalancer
    selector:
     app: demonodeapp
-    environment: releasepipeline
+    environment: dev
    ports:
     - protocol: TCP
       port: 80

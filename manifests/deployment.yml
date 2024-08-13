@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: demonodeapp
+  name: demonodeapp-dev
    labels:
     app: demonodeapp
-    environment: releasepipeline
+    environment: dev
 spec:
   replicas: 3
   selector:
     matchLabels:
       app: demonodeapp
-      environment: releasepipeline
+      environment: dev
   template:
     metadata:
       labels:
         app: demonodeapp
-        environment: releasepipeline
+        environment: dev
     spec:
       containers:
       - name: demonodeapp
